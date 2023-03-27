@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 import time
 from selenium.webdriver.common.by import By
 
@@ -25,65 +24,68 @@ def test_create_note():
     submit_button = driver.find_element("name", "create")
     submit_button.click()
     time.sleep(1)
-
-    # check that the note was created and is displayed on the home page
-    # note_titles = driver.find_elements("class name", "card-title")
-    # note_titles_text = [title.text for title in note_titles]
-    # assert "Test Note Title" in note_titles_text
-
-
-    # Check that the title of the new note is correct
-    #time.sleep(2)
+    # Take a screenshot of the page after creating the note
+    driver.save_screenshot("notes.png")
 
     title_input = driver.find_elements(By.TAG_NAME, 'h2')[0]
-    #time.sleep(2)
+    content_input = driver.find_element(By.TAG_NAME, 'p')
+    
+    print("\n")
+    print("Title input from testing script: " + title_input.get_attribute("innerHTML"))
+    print("Body input from testing script: " + content_input.get_attribute("innerHTML") + "\n")
 
-    print(title_input.get_attribute("innerHTML"))
-
+    # Check that the title of the new note is correct
     assert title_input.get_attribute("innerHTML") == "Test Note Title"
 
 
 # test editing an existing note
 def test_edit_note():
+    note_bodies = driver.find_elements(By.TAG_NAME, 'p')[0]
+    print("Note body before updating: " + note_bodies.get_attribute("innerHTML"))
     # find an existing note and click the edit button
-    edit_buttons = driver.find_elements(By.CLASS_NAME, "editSub")
-    edit_buttons.click()
+    edit_buttons = driver.find_elements(By.CLASS_NAME, "edit")
+    
+    edit_buttons[0].click()
     time.sleep(1)
 
     # update the note and submit
     body_input = driver.find_element("name", "content")
     body_input.clear()
     body_input.send_keys("Updated Note Body")
-    submit_button = driver.find_element("name", "create")
+    submit_button = driver.find_element(By.CLASS_NAME, "editSub")
     submit_button.click()
     time.sleep(1)
+    driver.save_screenshot("edits.png")
 
     # check that the note was updated and is displayed on the home page
-    note_bodies = driver.find_elements("class name", "card-text")
-    note_bodies_text = [body.text for body in note_bodies]
-    assert "Updated Note Body" in note_bodies_text
+    note_bodies = driver.find_elements(By.TAG_NAME, 'p')[0]
+    print("Note body after updating: " + note_bodies.get_attribute("innerHTML") + "\n")
+    assert note_bodies.get_attribute("innerHTML") == "Updated Note Body"
+    
 
 # test deleting an existing note
 def test_delete_note():
     # find an existing note and click the delete button
-    delete_buttons = driver.find_elements("class name", "btn-danger")
+    delete_buttons = driver.find_elements(By.CLASS_NAME, "dlt")
     delete_buttons[0].click()
+
     time.sleep(1)
 
-    # accept the confirmation dialog
-    alert = driver.switch_to.alert
-    alert.accept()
-    time.sleep(1)
+    driver.save_screenshot("delete.png")
 
     # check that the note was deleted and is no longer displayed on the home page
     note_titles = driver.find_elements("class name", "card-title")
     note_titles_text = [title.text for title in note_titles]
     assert "Test Note Title" not in note_titles_text
+    print("Deletion Successful\n")
+    print("Completion Message: 3 tests ran, all tests successfuly completed")
 
 # run the tests
 test_create_note()
 test_edit_note()
 test_delete_note()
+
+
 
 # close the driver
 driver.close()

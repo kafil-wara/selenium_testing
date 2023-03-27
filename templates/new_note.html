@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Note</title>
+  </head>
+  <body>
+    <h1>New Note</h1>
+    <form action="/create_note" method="POST">
+      <label for="title">Title:</label>
+      <input type="text" name="title" id="title"><br>
+      <label for="content">Content:</label><br>
+      <textarea name="content" id="content" cols="30" rows="10"></textarea><br>
+      <input type="submit" value="Create">
+    </form>
+    <a href="/">Back</a>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Note</title>
+  </head>
+  <body>
+    <h1>Edit Note</h1>
+    <form action="/update_note/{{ index }}" method="POST">
+      <label for="title">Title:</label>
+      <input type="text" name="title" id="title" value="{{ note.title }}"><br>
+      <label for="content">Content:</label><br>
+      <textarea name="content" id="content" cols="30" rows="10">{{ note.content }}</textarea><br>
+      <input type="submit" value="Save">
+    </form>
+    <a href="/">Back</a>
+  </body>
+</html>

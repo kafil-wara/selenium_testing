@@ -8,9 +8,9 @@
     <ul>
       {% for note in notes %}
       <li>
-        <h2>{{ note.title }}</h2>
-        <p>{{ note.content }}</p>
-        <a href="/edit_note/{{ loop.index0 }}">Edit</a>
+        <h2 name="title">{{ note.title }}</h2>
+        <p name="content">{{ note.content }}</p>
+        <a class="edit" href="/edit_note/{{ loop.index0 }}">Edit</a>
         <a href="/delete_note/{{ loop.index0 }}">Delete</a>
       </li>
       {% endfor %}
